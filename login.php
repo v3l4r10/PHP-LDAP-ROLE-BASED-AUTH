@@ -8,7 +8,7 @@ require_once "includes/recaptchalib.php";
 //LDAP CONFIGURATION
 
 $ldapconfig['host'] = '127.0.0.1'; //CHANGE THIS
-apconfig['port'] = '389'; //CHANGE THIS
+$ldapconfig['port'] = '389'; //CHANGE THIS
 $ldapconfig['basedn'] = 'dc=example,dc=example,dc=example'; //CHANGE THIS
 $ldapconfig['usersdn'] = 'cn=admin'; //CHANGE THIS
 $conn=ldap_connect($ldapconfig['host'], $ldapconfig['port']);
