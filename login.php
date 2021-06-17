@@ -7,17 +7,14 @@ require_once "includes/recaptchalib.php";
 
 //LDAP CONFIGURATION
 
-$ldapconfig['host'] = '127.0.0.1'; //CHANGE THIS
+$ldapconfig['host'] = '192.168.124.132'; //CHANGE THIS
 $ldapconfig['port'] = '389'; //CHANGE THIS
-$ldapconfig['basedn'] = 'dc=example,dc=example,dc=example'; //CHANGE THIS
+$ldapconfig['basedn'] = 'dc=jon,dc=v3l4r10,dc=eus'; //CHANGE THIS
 $ldapconfig['usersdn'] = 'cn=admin'; //CHANGE THIS
 $conn=ldap_connect($ldapconfig['host'], $ldapconfig['port']);
 
 ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
-// ldap_set_option($conn, LDAP_OPT_REFERRALS, 0);
-// ldap_set_option($conn, LDAP_OPT_SIZELIMIT, 0);
-// ldap_set_option($conn, LDAP_OPT_TIMELIMIT, 0);
-// ldap_set_option($conn, LDAP_OPT_NETWORK_TIMEOUT, 5);
+
 
 
 // Define variables 
@@ -68,29 +65,26 @@ if($_SERVER["REQUEST_METHOD"] === "POST") {
         // Validate credentials
         if(empty($username_err) && empty($password_err)){
             
-            if ($bind=ldap_bind($conn, $dn, $password)){
-                echo("Login correct");
-                
-                session_start();
-                
-                // Store data in session variables
-                $_SESSION["loggedin"] = true;
-                $_SESSION["id"] = $id;
-                $_SESSION["username"] = $username;                            
-                
-                // Redirect
-                header("location: welcome.php");
-            } else{
-                echo("Connection error");
-            }
-        
-        }else{
-        echo("Incorrect credentials");}
-        
-}else{
+    		if ($bind=ldap_bind($conn, $dn, $password)){
+    			echo("Login correct");
+    			
+    			session_start();
+    			
+    			// Store data in session variables
+    			$_SESSION["loggedin"] = true;
+    			$_SESSION["id"] = $id;
+    			$_SESSION["username"] = $username;                            
+    			
+    			// Redirect
+    			header("location: welcome.php");
+    		} else{
+    			echo("Connection error");
+			}
+		
+		}else{
+		echo("Incorrect credentials");} }
+		
 
-//Close connection                  
-ldap_unbind($bind); }
 
 ?>
  
@@ -99,7 +93,7 @@ ldap_unbind($bind); }
 <head>
     <meta charset="UTF-8">
     <title>LDAP login</title>
-        <!-- PUBLIC KEY, FOR TESTING PURPOSES -->
+    <!-- PUBLIC KEY, FOR TESTING PURPOSES -->
     <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
     <script>
     grecaptcha.ready(function() {
